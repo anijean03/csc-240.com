@@ -70,7 +70,7 @@ public class Fraction implements Comparable<Fraction> {
     public Fraction add(Fraction f2) {
         long newTop = this.top * f2.bottom + f2.top * this.bottom;
         long newBottom = this.bottom * f2.bottom;
-        return new Fraction(newTop, newBottom); // This will automatically simplify
+        return new Fraction(newTop, newBottom); 
     }
 
     @Override
@@ -84,7 +84,67 @@ public class Fraction implements Comparable<Fraction> {
             b = a % b;
             a = temp;
         }
-        return Math.abs(a); // GCD should be positive
+        return Math.abs(a); 
+    }
+}
+
+public class Hex {
+
+    private final int value;
+
+    public Hex(int value) {
+        this.value = value;
+    }
+
+    public int valueOf() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return "0x" + Integer.toHexString(value).toUpperCase();
+    }
+
+    public String toJSON() {
+        return toString();
+    }
+
+    public Hex plus(Hex other) {
+        return new Hex(this.value + other.valueOf());
+    }
+
+    public Hex minus(Hex other) {
+        return new Hex(this.value - other.valueOf());
+    }
+
+    public Hex plus(int number) {
+        return new Hex(this.value + number);
+    }
+
+    public Hex minus(int number) {
+        return new Hex(this.value - number);
+    }
+
+    public static int parse(String string) {
+        string = string.trim();
+        if (string.startsWith("0x")) {
+            return Integer.parseInt(string.substring(2), 16);
+        } else {
+            return Integer.parseInt(string, 16);
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Hex hex = (Hex) other;
+        return value == hex.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(value);
     }
 }
 
