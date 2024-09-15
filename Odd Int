@@ -29,3 +29,66 @@ public class Kata {
     }
 
 }
+
+public class Fraction implements Comparable<Fraction> {
+    private final long top;
+    private final long bottom;
+
+    public Fraction(long numerator, long denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Denominator cannot be zero.");
+        }
+
+        long gcd = gcd(numerator, denominator);
+        long normalizedTop = numerator / gcd;
+        long normalizedBottom = denominator / gcd;
+
+        // Ensure the denominator is positive
+        if (normalizedBottom < 0) {
+            normalizedTop = -normalizedTop;
+            normalizedBottom = -normalizedBottom;
+        }
+
+        this.top = normalizedTop;
+        this.bottom = normalizedBottom;
+    }
+
+    @Override
+    public int hashCode() { 
+        return 17 * Long.hashCode(top) + Long.hashCode(bottom); 
+    }    
+
+    @Override
+    public boolean equals(Object o) { 
+        return o instanceof Fraction && compareTo((Fraction)o) == 0; 
+    }    
+
+    @Override
+    public int compareTo(Fraction f2) { 
+        return Long.compare(top * f2.bottom, f2.top * bottom); 
+    }
+
+    // Add two fractions
+    public Fraction add(Fraction f2) {
+        long newTop = this.top * f2.bottom + f2.top * this.bottom;
+        long newBottom = this.bottom * f2.bottom;
+        return new Fraction(newTop, newBottom); // This will automatically simplify
+    }
+
+    // Override toString to represent the fraction as "numerator/denominator"
+    @Override
+    public String toString() {
+        return top + "/" + bottom;
+    }
+
+    // Helper method to compute the greatest common divisor (GCD)
+    private long gcd(long a, long b) {
+        while (b != 0) {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return Math.abs(a); // GCD should be positive
+    }
+}
+
