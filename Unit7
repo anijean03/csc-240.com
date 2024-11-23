@@ -13,7 +13,7 @@ class Student implements Comparable<Student> {
 
     @Override
     public int compareTo(Student other) {
-        return Integer.compare(other.score, this.score); // Descending order
+        return Integer.compare(other.score, this.score); 
     }
 
     @Override
@@ -29,7 +29,7 @@ class Sorting {
             maxIndex = i;
 
             for (int j = i + 1; j < array.length; j++) {
-                if (array[j].compareTo(array[maxIndex]) > 0) { // Compare for descending
+                if (array[j].compareTo(array[maxIndex]) > 0) { 
                     maxIndex = j;
                 }
             }
