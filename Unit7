@@ -1,0 +1,93 @@
+import java.util.Scanner;
+
+class Student implements Comparable<Student> {
+    public String firstName;
+    public String lastName;
+    public int score;
+
+    public Student(String firstName, String lastName, int score) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.score = score;
+    }
+
+    @Override
+    public int compareTo(Student other) {
+        return Integer.compare(other.score, this.score); // Descending order
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " " + score;
+    }
+}
+
+class Sorting {
+    public static <T extends Comparable<T>> void selectionSort(T[] array) {
+        int maxIndex;
+        for (int i = 0; i < array.length - 1; i++) {
+            maxIndex = i;
+
+            for (int j = i + 1; j < array.length; j++) {
+                if (array[j].compareTo(array[maxIndex]) > 0) { // Compare for descending
+                    maxIndex = j;
+                }
+            }
+
+            if (maxIndex != i) {
+                swap(array, i, maxIndex);
+            }
+        }
+    }
+
+    private static <T> void swap(T[] array, int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+class Gradebook {
+    private Student[] students;
+
+    public Gradebook(int capacity) {
+        students = new Student[capacity];
+    }
+
+    public void addStudent(int index, Student student) {
+        students[index] = student;
+    }
+
+    public void sortStudents() {
+        Sorting.selectionSort(students);
+    }
+
+    public void printStudents() {
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        final int numStudents = 5;
+        Gradebook gradebook = new Gradebook(numStudents);
+        Scanner scanner = new Scanner(System.in);
+
+        for (int i = 0; i < numStudents; i++) {
+            System.out.print("Enter student <firstName> <lastName> <score>: ");
+            String[] input = scanner.nextLine().split(" ");
+            String firstName = input[0];
+            String lastName = input[1];
+            int score = Integer.parseInt(input[2]);
+
+            Student student = new Student(firstName, lastName, score);
+            gradebook.addStudent(i, student);
+        }
+
+        gradebook.sortStudents();
+        System.out.println("\nSorted Students:");
+        gradebook.printStudents();
+    }
+}
