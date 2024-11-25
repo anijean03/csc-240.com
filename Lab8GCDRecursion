@@ -1,0 +1,53 @@
+import java.util.Scanner;
+
+class RationalNumber {
+    private int numerator;
+    private int denominator;
+
+    public RationalNumber(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Denominator cannot be zero.");
+        }
+        this.numerator = numerator;
+        this.denominator = denominator;
+    }
+
+    public int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+
+    public int greatestCommonDivisor() {
+        return gcd(numerator, denominator);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter positive integer as numerator: ");
+            int numerator = scanner.nextInt();
+
+            System.out.print("Enter positive integer as denominator: ");
+            int denominator = scanner.nextInt();
+
+            if (numerator <= 0 || denominator <= 0) {
+                throw new IllegalArgumentException("Inputs must be positive integers.");
+            }
+
+            RationalNumber rationalNumber = new RationalNumber(numerator, denominator);
+            int gcdValue = rationalNumber.greatestCommonDivisor();
+
+            System.out.println("Greatest common denominator of " + numerator + "/" + denominator + " is " + gcdValue);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        scanner.close();
+    }
+}
