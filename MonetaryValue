@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+class MoneyChanger {
+    private double amount;
+
+    public MoneyChanger(double amount) {
+        this.amount = amount;
+    }
+
+    public void calculateBreakdown() {
+        int remainingAmount = (int) (amount * 100);
+
+        int tenDollarBills = remainingAmount / 1000;
+        remainingAmount %= 1000;
+
+        int fiveDollarBills = remainingAmount / 500;
+        remainingAmount %= 500;
+
+        int oneDollarBills = remainingAmount / 100;
+        remainingAmount %= 100;
+
+        int quarters = remainingAmount / 25;
+        remainingAmount %= 25;
+
+        int dimes = remainingAmount / 10;
+        remainingAmount %= 10;
+
+        int nickels = remainingAmount / 5;
+        remainingAmount %= 5;
+
+        int pennies = remainingAmount;
+
+        System.out.println(tenDollarBills + " ten dollar bills");
+        System.out.println(fiveDollarBills + " five dollar bills");
+        System.out.println(oneDollarBills + " one dollar bills");
+        System.out.println(quarters + " quarters");
+        System.out.println(dimes + " dimes");
+        System.out.println(nickels + " nickels");
+        System.out.println(pennies + " pennies");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
+        do {
+            System.out.print("Enter a monetary amount (or 'quit' to exit): ");
+            input = scanner.nextLine();
+
+            if (!input.equalsIgnoreCase("quit")) {
+                try {
+                    double amount = Double.parseDouble(input);
+                    MoneyChanger changer = new MoneyChanger(amount);
+                    changer.calculateBreakdown();
+                } catch (NumberFormatException e) {
+                    System.out.println("EXCEPTION: Invalid input");
+                }
+            }
+        } while (!input.equalsIgnoreCase("quit"));
+    }
+}
